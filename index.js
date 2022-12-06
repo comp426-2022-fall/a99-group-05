@@ -94,7 +94,7 @@ app.post("/app/new/user", (req, res, next) => {
         user: req.body.username,
         pass: req.body.password
     }
-    const stmt = db.prepare('INSERT INTO userinfo (username, password) VALUES (?, ?)')
+    const stmt = userdb.prepare('INSERT INTO userinfo (username, password) VALUES (?, ?)')
     const info = stmt.run(data.user, data.pass)
     res.status(200).json(info)
 });
@@ -102,7 +102,7 @@ app.post("/app/new/user", (req, res, next) => {
 // READ a list of users (HTTP method GET) at endpoint /app/users/
 app.get("/app/users", (req, res) => {	
     try {
-        const stmt = db.prepare('SELECT * FROM userinfo').all()
+        const stmt = userdb.prepare('SELECT * FROM userinfo').all()
         res.status(200).json(stmt)
     } catch {
         console.error(e)
@@ -112,7 +112,7 @@ app.get("/app/users", (req, res) => {
 // READ a single user (HTTP method GET) at endpoint /app/user/:id
 app.get("/app/user/:id", (req, res) => {
     try {
-        const stmt = db.prepare('SELECT * FROM userinfo WHERE id = ?').get(req.params.id);
+        const stmt = userdb.prepare('SELECT * FROM userinfo WHERE id = ?').get(req.params.id);
         res.status(200).json(stmt)
     } catch (e) {
         console.error(e)
@@ -126,14 +126,14 @@ app.patch("/app/update/user/:id", (req, res) => {
         user: req.body.username,
         pass: req.body.password
     }
-    const stmt = db.prepare('UPDATE userinfo SET username = COALESCE(?,username), password = COALESCE(?,password) WHERE id = ?')
+    const stmt = userdb.prepare('UPDATE userinfo SET username = COALESCE(?,username), password = COALESCE(?,password) WHERE id = ?')
     const info = stmt.run(data.user, data.pass, req.params.id)
     res.status(200).json(info)
 });
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 app.delete("/app/delete/user/:id", (req, res) => {
-    const stmt = db.prepare('DELETE FROM userinfo WHERE id = ?')
+    const stmt = userdb.prepare('DELETE FROM userinfo WHERE id = ?')
     const info = stmt.run(req.params.id)
     res.status(200).json(info)
 });
