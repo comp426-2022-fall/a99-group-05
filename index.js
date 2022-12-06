@@ -143,3 +143,45 @@ app.use(function(req, res){
     res.status(404);
 });
 
+// Spin the wheel once with a user bet
+function wheelSpin(bet, user_balance) {
+    // All multiples on the wheel
+    let array = [0.25, 0.25, 0.5, 0.5, 0.5, 1, 1, 2, 5, 10];
+
+    // Ensure there is a bet for a spin
+    if (bet == null || bet <= 0){
+        if (bet > user_balance){
+            bet = user_balance;
+        } else {
+            bet = 100
+        }
+    }
+
+    // Return credits earned
+    return (array[Math.floor(Math.random() * array.length)] * bet);
+}
+
+// Spin wheel multiple times
+function wheelSpinMult(bet, spins, user_balance) {
+    let newBet = 100;
+
+    if (spins > 0){
+        newBet = wheelSpin(bet)
+
+        for (i = 1; i < spins; i++){
+            newBet = wheelSpin(newBet)
+        }
+    }
+
+    return newBet
+}
+
+// Endpoint /app/spin/ that returns JSON {"spin":[credits won]} 
+// corresponding to the results of the random coin flip.
+app.get('/app/spin/', (req, res) => {
+    const win = wheelSpin()
+    res.status(200).json({ "spin" : win })
+});
+
+
+
