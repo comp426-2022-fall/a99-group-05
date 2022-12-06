@@ -20,9 +20,12 @@
   "bugs": {
     "url": "https://github.com/comp426-2022-fall/a99-group-05/issues"
   },
-  "homepage": "https://github.com/comp426-2022-fall/a99-group-05#readme",
+  "homepage": "https://github.com/jdmar3/coinserver#readme",
   "dependencies": {
-    "express": "^4.18.2",
-    "uuid": "^9.0.0"
+    "better-sqlite3": "^7.5.1",
+    "express": "^4.18.0",
+    "minimist": "^1.2.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
   }
 }
