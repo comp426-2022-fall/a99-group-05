@@ -92,10 +92,11 @@ app.use((req, res, next) => {
 app.post("/app/new/user", (req, res, next) => {
     let data = {
         user: req.body.username,
-        pass: req.body.password
+        pass: req.body.password,
+        bal: req.body.bal
     }
-    const stmt = userdb.prepare('INSERT INTO userinfo (username, password) VALUES (?, ?)')
-    const info = stmt.run(data.user, data.pass)
+    const stmt = userdb.prepare('INSERT INTO userinfo (username, password, balance) VALUES (?, ?, ?)')
+    const info = stmt.run(data.user, data.pass, data.bal)
     res.status(200).json(info)
 });
 
@@ -124,7 +125,7 @@ app.get("/app/user/:id", (req, res) => {
 app.patch("/app/update/user/:id", (req, res) => {
     let data = {
         user: req.body.username,
-        pass: req.body.password
+        pass: req.body.password,
     }
     const stmt = userdb.prepare('UPDATE userinfo SET username = COALESCE(?,username), password = COALESCE(?,password) WHERE id = ?')
     const info = stmt.run(data.user, data.pass, req.params.id)
