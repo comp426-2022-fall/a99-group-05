@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wheel Spinner</title>
+  </head>
+  <body>
+    <nav>
+        <button id="homenav" onclick="homeNav()" class="active">Home</button>
+        <button id="singlenav" onclick="singleNav()">Spin Wheel Once</button>
+      </nav>
+  <!-- This container div wraps all of the other divs. -->
+      <div class=container>
+  <!-- The first div is just a landing page. -->
+  <!-- All of the divs have default classes set so that they will show or not show depending on whether they are active or inactive, respectively -->
+      <div id="home" class="active">
+        <h1>You want to flip a coin?</h1>
+        <p>Click the buttons above to flip a coin, flip many coins, or guess a coin flip. 
+      </div>    
+  <!-- The second div has a button that interacts with the /app/flip/ endpoint. --> 
+      <div id="single" class="inactive">
+        <h1>Spin the Wheel</h1>
+  <!-- A "coin" button that creates an event for the flipCoin() function in main.js. -->
+            <button id="coin">Spin it!</button>
+  <!-- A result paragraph-->
+            <h2>Result</h2>
+            <p><span id="result"></span></p> 
+      </div>
+      <script src="main.js"></script>
+  </body>
+</html>
