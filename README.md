@@ -1,8 +1,6 @@
 # a99-group-05: Spin the Wheel!
 
-A NodeJS/Express REST API that serves up coin flips
-
-This was developed from in-class demos for UNC COMP 426 Spring 2022.
+A NodeJS/Express REST API that allows users to bet on a spin to earn more coins.
 
 # Install and run instructions
 
@@ -11,15 +9,15 @@ This currently works on Node v16.x.x (current iteration developed on v16.15.0).
 To install, clone this repository and then run `npm install` inside the directory.
 This will install all dependencies.
 
-To run for debugging, run `npm test`. It will listen on port 5555.
+To run for debugging, run `npm test`. It will listen on port 5000.
 
-To run, use `npm start` and the server will listen on whatever port is configured in `.env` or default to 5000. 
+To run, use `npm run` and the server will listen on whatever port is configured in `.env` or default to 5000. 
 
 To run on a specific port either change `PORT=` in `.env` or use `node index.js --port=PORT_NUMBER`.
 
 `node index.js --help` shows all currently-implemented options.
 
-# Coinserver API Documentation
+# Spin the Wheel! API Documentation
 
 ## Endpoints
 
@@ -36,17 +34,17 @@ curl http://localhost:5000/app/
 {"message":"Your API works! (200)"}
 ```
 
-### /app/spin
+### /app/spin/:id
 
 Makes a bet, spins the wheel, and updates user balance
 
-#### Response body - FIX THIS WHEN SPIN WORKS
+#### Response body
 
 ```
-curl http://localhost:5000/app/spin
+curl http://localhost:5000/app/spin/:id (replace :id with user id)
 ```
 ```json
-{"message":"Your API works! (200)"}
+{"spin": "win amount", "new balance": "new balance"}
 ```
 
 ### /app/new/user
@@ -101,14 +99,14 @@ curl -X PATCH -d '{"username": "new username", "password": "new password"}' -H '
 {"changes":"0 if not changed, 1 if changed", "lastInserRowid": "DB Row ID of users updated"}
 ```
 
-### /app/update/user/:id - FIX THIS ONCE BALANCE IS UPDATED
+### /app/update/balance/:id
 
 Takes user id and new balance as inputs and outputs the user's information stored in the user DB.
 
 #### Response body
 
 ```
-curl -X PATCH -d '{"balance": "new balance"}' -H 'Content-Type: application/json' http://localhost:5000/app/update/user/:id (replace :id with user id to change)
+curl -X PATCH -d '{"balance": "new balance"}' -H 'Content-Type: application/json' http://localhost:5000/app/balance/user/:id (replace :id with user id to change)
 ```
 ```json
 {"changes":"0 if not changed, 1 if changed", "lastInserRowid": "DB Row ID of users updated"}
