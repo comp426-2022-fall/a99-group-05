@@ -54,7 +54,7 @@ Takes user input parameters, creates a new user, and stores it in the user datab
 #### Response body
 
 ```
-curl -X POST -d '{"user": "daddy", "pass": "mommy", "bal": "1000"}' -H 'Content-Type: application/json' http://localhost:5000/app/new/user
+curl -X POST -d '{"username": "daddy", "password": "mommy", "balance": "1000"}' -H 'Content-Type: application/json' http://localhost:5000/app/new/user
 ```
 ```json
 {"changes":"0 if not changed, 1 if changed", "lastInserRowid": "DB Row ID of users added"}
