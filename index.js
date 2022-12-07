@@ -102,8 +102,11 @@ app.get("/app/", (req, res, next) => {
 // corresponding to the results of the random coin flip.
 app.get('/app/spin', (req, res, next) => {
     const spin = wheelSpin()
+    if (user_balance == 0) {
+        
+    }
     const user_balance = user_balance + spin
-    res.status(200).json({ "spin" : spin })
+    res.status(200).json({ "spin" : spin }, { "new balance" : user_balance})
 });
 
 // Always log to database
