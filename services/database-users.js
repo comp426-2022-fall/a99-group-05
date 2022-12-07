@@ -19,12 +19,12 @@ if (row === undefined) {
 // Set a const that will contain your SQL commands to initialize the database.
     const sqlInit = `
         CREATE TABLE userinfo ( id INTEGER PRIMARY KEY, username VARCHAR, password VARCHAR, balance INT);
-        INSERT INTO userinfo (username, password) VALUES ('user1','supersecurepassword'),('test','anotherpassword');
+        INSERT INTO userinfo (username, password, balance) VALUES ('user1','supersecurepassword', 100),('test','anotherpassword', 100);
     `;
 // Execute SQL commands that we just wrote above.
     db.exec(sqlInit);
 // Echo information about what we just did to the console.
-    console.log('Your database has been initialized with a new table and two entries containing a username and password.');
+    console.log('Your database has been initialized with a new table and two entries containing a username, password, and balance.');
 } else {
 // Since the database already exists, echo that to the console.
     console.log('Database exists.')
