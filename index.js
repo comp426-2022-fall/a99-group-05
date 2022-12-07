@@ -104,9 +104,7 @@ app.get('/app/spin/:id', (req, res, next) => {
     const spin = wheelSpin()
     const stmt = userdb.prepare('SELECT balance FROM userinfo WHERE id = ?').get(req.params.id);
     const val = stmt.balance
-    console.log(val)
     const user_balance = val + spin
-    console.log(user_balance)
     const stmt2 = userdb.prepare('UPDATE userinfo SET balance = COALESCE(?,balance) WHERE id = ?')
     const info = stmt2.run(user_balance, req.params.id)
     res.status(200).json({ "spin" : spin, "new balance" : user_balance})
@@ -136,7 +134,7 @@ app.post("/app/new/user", (req, res, next) => {
     let data = {
         user: req.body.username,
         pass: req.body.password,
-        bal: req.body.bal
+        bal: req.body.balance
     }
     const stmt = userdb.prepare('INSERT INTO userinfo (username, password, balance) VALUES (?, ?, ?)')
     const info = stmt.run(data.user, data.pass, data.bal)
