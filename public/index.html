@@ -16,18 +16,18 @@
   <!-- The first div is just a landing page. -->
   <!-- All of the divs have default classes set so that they will show or not show depending on whether they are active or inactive, respectively -->
       <div id="home" class="active">
-        <h1>You want to spin the wheel?</h1>
-        <p>Click the buttons above to spin the wheel, spin the wheel with user input, spin the wheel multiple times. 
+          <h1>You want to spin the wheel?</h1>
+          <p>Click the buttons above to spin the wheel, spin the wheel with user input, spin the wheel multiple times. 
       </div>    
-  <!-- The second div has a button that interacts with the /app/flip/ endpoint. --> 
+  <!-- The second div has a button that interacts with the /app/spin/ endpoint. --> 
       <div id="single" class="inactive">
-        <h1>Spin the Wheel</h1>
-  <!-- A "coin" button that creates an event for the flipCoin() function in main.js. -->
-            <button id="coin">Spin it!</button>
+          <h1>Spin the Wheel</h1>
+  <!-- A "spin" button that creates an event for the spinWheel() function in main.js. -->
+            <button id="spin">Spin it!</button>
   <!-- A result paragraph-->
             <h2>Result</h2>
-            <p><span id="result"></span></p> 
+            <p id="result"></p> 
       </div>
-      <script src="main.js"></script>
   </body>
+  <script src="main.js"></script>
 </html>

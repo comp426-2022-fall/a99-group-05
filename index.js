@@ -48,6 +48,35 @@ if (args.log == 'false') {
     app.use(morgan('combined', { stream: accessLog }))
 }
 
+// Spin the wheel once with a user bet
+function wheelSpin(bet) {
+    // All multiples on the wheel
+    let array = [0.25, 0.25, 0.5, 0.5, 0.5, 1, 1, 2, 5, 10];
+
+    // Ensure there is a bet for a spin
+    if (bet == null || bet <= 0){
+        bet = 100
+    }
+
+    // Return credits earned
+    return (array[Math.floor(Math.random() * array.length)] * bet);
+}
+
+// Spin wheel multiple times
+function wheelSpinMult(bet, spins) {
+    let newBet = 100;
+
+    if (spins > 0){
+        newBet = wheelSpin(bet)
+
+        for (i = 1; i < spins; i++){
+            newBet = wheelSpin(newBet)
+        }
+    }
+
+    return newBet
+}
+
 const server = app.listen(port, () => {
     console.log("Server running on port %PORT%".replace("%PORT%", port))
 });
@@ -67,6 +96,14 @@ if (args.debug || args.d) {
 app.get("/app/", (req, res, next) => {
     res.json({"message":"Your API works! (200)"});
 	res.status(200);
+});
+
+// Endpoint /app/spin/ that returns JSON {"spin":[credits won]} 
+// corresponding to the results of the random coin flip.
+app.get('/app/spin', (req, res, next) => {
+    const spin = wheelSpin()
+    const user_balance = user_balance + spin
+    res.status(200).json({ "spin" : spin })
 });
 
 // Always log to database
@@ -132,6 +169,15 @@ app.patch("/app/update/user/:id", (req, res) => {
     res.status(200).json(info)
 });
 
+app.patch("/app/update/user/:id", (req, res) => {
+    let data = {
+        bal: req.body.bal
+    }
+    const stmt = userdb.prepare('UPDATE userinfo SET balance = COALESCE(?,bal) WHERE id = ?')
+    const info = stmt.run(data.bal, req.params.id)
+    res.status(200).json(info)
+});
+
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 app.delete("/app/delete/user/:id", (req, res) => {
     const stmt = userdb.prepare('DELETE FROM userinfo WHERE id = ?')
@@ -144,45 +190,9 @@ app.use(function(req, res){
     res.status(404);
 });
 
-// Spin the wheel once with a user bet
-function wheelSpin(bet, user_balance) {
-    // All multiples on the wheel
-    let array = [0.25, 0.25, 0.5, 0.5, 0.5, 1, 1, 2, 5, 10];
 
-    // Ensure there is a bet for a spin
-    if (bet == null || bet <= 0){
-        if (bet > user_balance){
-            bet = user_balance;
-        } else {
-            bet = 100
-        }
-    }
 
-    // Return credits earned
-    return (array[Math.floor(Math.random() * array.length)] * bet);
-}
 
-// Spin wheel multiple times
-function wheelSpinMult(bet, spins, user_balance) {
-    let newBet = 100;
-
-    if (spins > 0){
-        newBet = wheelSpin(bet)
-
-        for (i = 1; i < spins; i++){
-            newBet = wheelSpin(newBet)
-        }
-    }
-
-    return newBet
-}
-
-// Endpoint /app/spin/ that returns JSON {"spin":[credits won]} 
-// corresponding to the results of the random coin flip.
-app.get('/app/spin/', (req, res) => {
-    const win = wheelSpin()
-    res.status(200).json({ "spin" : win })
-});
 
 
 
