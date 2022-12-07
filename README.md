@@ -59,5 +59,70 @@ Takes user input parameters, creates a new user, and stores it in the user datab
 curl -X POST -d '{"user": "daddy", "pass": "mommy", "bal": "1000"}' -H 'Content-Type: application/json' http://localhost:5000/app/new/user
 ```
 ```json
-{"changes":"# of users added", "lastInserRowid": "DB Row ID of users added"}
+{"changes":"0 if not changed, 1 if changed", "lastInserRowid": "DB Row ID of users added"}
+```
+
+### /app/users
+
+Displays all users in the user database.
+
+#### Response body
+
+```
+curl http://localhost:5000/app/users
+```
+```json
+{"id":"user id", "username": "username", "password": "password", "balance": "balance"} for each user in DB
+```
+
+### /app/user/:id
+
+Takes user id as input and outputs the user's information stored in the user DB.
+
+#### Response body
+
+```
+curl http://localhost:5000/app/user/:id (replace :id with actual user id)
+```
+```json
+{"id":"user id", "username": "username", "password": "password", "balance": "balance"} for that specific user
+```
+
+### /app/update/user/:id
+
+Takes user id, new username, and new password as inputs and outputs the user's information stored in the user DB.
+
+#### Response body
+
+```
+curl -X PATCH -d '{"username": "new username", "password": "new password"}' -H 'Content-Type: application/json' http://localhost:5000/app/update/user/:id (replace :id with user id to change)
+```
+```json
+{"changes":"0 if not changed, 1 if changed", "lastInserRowid": "DB Row ID of users updated"}
+```
+
+### /app/update/user/:id - FIX THIS ONCE BALANCE IS UPDATED
+
+Takes user id and new balance as inputs and outputs the user's information stored in the user DB.
+
+#### Response body
+
+```
+curl -X PATCH -d '{"balance": "new balance"}' -H 'Content-Type: application/json' http://localhost:5000/app/update/user/:id (replace :id with user id to change)
+```
+```json
+{"changes":"0 if not changed, 1 if changed", "lastInserRowid": "DB Row ID of users updated"}
+```
+
+### /app/delete/user/:id
+
+Takes user id as input and deletes the user.
+
+#### Response body
+
+```
+curl -X DELETE http://localhost:5000/app/delete/user/:id (replace :id with user id to change)
+```
+```json
+{"changes":"0 if not changed, 1 if changed", "lastInserRowid": "DB Row ID of user deleted"}
 ```
