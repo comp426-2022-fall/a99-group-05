@@ -169,6 +169,7 @@ app.patch("/app/update/user/:id", (req, res) => {
     res.status(200).json(info)
 });
 
+// UPDATE a single user balance
 app.patch("/app/update/user/:id", (req, res) => {
     let data = {
         bal: req.body.bal
