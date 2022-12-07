@@ -100,13 +100,16 @@ app.get("/app/", (req, res, next) => {
 
 // Endpoint /app/spin/ that returns JSON {"spin":[credits won]} 
 // corresponding to the results of the random coin flip.
-app.get('/app/spin', (req, res, next) => {
+app.get('/app/spin/:id', (req, res, next) => {
     const spin = wheelSpin()
-    if (user_balance == 0) {
-        
-    }
-    const user_balance = user_balance + spin
-    res.status(200).json({ "spin" : spin }, { "new balance" : user_balance})
+    const stmt = userdb.prepare('SELECT balance FROM userinfo WHERE id = ?').get(req.params.id);
+    const val = stmt.balance
+    console.log(val)
+    const user_balance = val + spin
+    console.log(user_balance)
+    const stmt2 = userdb.prepare('UPDATE userinfo SET balance = COALESCE(?,balance) WHERE id = ?')
+    const info = stmt2.run(user_balance, req.params.id)
+    res.status(200).json({ "spin" : spin, "new balance" : user_balance})
 });
 
 // Always log to database
@@ -173,7 +176,7 @@ app.patch("/app/update/user/:id", (req, res) => {
 });
 
 // UPDATE a single user balance
-app.patch("/app/update/user/:id", (req, res) => {
+app.patch("/app/update/balance/:id", (req, res) => {
     let data = {
         bal: req.body.bal
     }
